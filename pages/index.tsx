@@ -1,10 +1,12 @@
 import Head from "next/head";
 import { useState, FormEvent } from "react";
 import styles from "./index.module.css";
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { IconContext } from "react-icons";
 
 export default function Home() {
-  const [animalInput, setAnimalInput] = useState("");
-  const [result, setResult] = useState();
+  const [roleInput, setRoleInput] = useState("");
+  const [result, setResult] = useState("");
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -14,7 +16,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ role: animalInput }),
+        body: JSON.stringify({ role: roleInput }),
       });
 
       const data = await response.json();
@@ -26,7 +28,7 @@ export default function Home() {
       }
 
       setResult(data.result);
-      setAnimalInput("");
+      setRoleInput("");
     } catch (error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -42,17 +44,21 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <img src="/dog.png" className={styles.icon} />
-        <h3>Name my pet</h3>
+        <IconContext.Provider value={{ size: "6em", className: "icon" }}>
+          <div>
+            <IoDocumentTextOutline />
+          </div>
+        </IconContext.Provider>
+        <h3>Generate Cover Letter</h3>
         <form onSubmit={onSubmit}>
           <input
             type="text"
-            name="animal"
-            placeholder="Enter an animal"
-            value={animalInput}
-            onChange={(e) => setAnimalInput(e.target.value)}
+            name="role"
+            placeholder="Enter a role"
+            value={roleInput}
+            onChange={(e) => setRoleInput(e.target.value)}
           />
-          <input type="submit" value="Generate names" />
+          <input type="submit" value="Generate cover letter" />
         </form>
         <div className={styles.result}>{result}</div>
       </main>
