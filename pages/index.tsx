@@ -60,7 +60,11 @@ export default function Home() {
           />
           <input type="submit" value="Generate cover letter" />
         </form>
-        <div className={styles.result}>{result}</div>
+        <div className={styles.result}>
+          {result.split("\n").map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+        </div>
       </main>
     </div>
   );
